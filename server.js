@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const { makeExecutableSchema } = require('graphql-tools');
-const { directiveResolvers, attachDirectives } = require('./directives');
+const { directiveResolvers } = require('./directives');
 const { attachUserToContext } = require('./middleware');
 const { getArticlesForAuthor, addArticle } = require('./controllers');
 const { checkAuthAndResolve, checkScopesAndResolve } = require('./resolvers');
@@ -59,9 +59,7 @@ const resolvers = {
   }
 };
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
-
-attachDirectives(schema);
+const schema = makeExecutableSchema({ typeDefs, resolvers, directiveResolvers });
 
 // app.use(attachUserToContext);
 
